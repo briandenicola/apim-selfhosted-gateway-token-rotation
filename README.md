@@ -2,7 +2,7 @@
 ## Overview
 Azure API Management recently introduced a new featured called self-hosted gateway. This allows you to put the APIM gateway proxy (the actual resource that accepts incoming requests) closer to your actual APIs.  This gateway can be hosted in any Docker or Kubernetes cluster anywhere you want.  The gateway authenticates back to APIM via a token that expires at most every 30 days. So this token needs to be cycled. 
 
-How follows in this repo is a demostration on how you can use a Kubernetes cronjob to update the token and cycle the gateway's keys
+How follows in this repo is a demostration on how you can use a Kubernetes cronjob to update the token and cycle the gateway's keys.  The token will cycle on the 1st and 15th of every month and be valid for 29 days. 
 
 ## Variables and Environment Information 
 * In this example:
@@ -10,7 +10,7 @@ How follows in this repo is a demostration on how you can use a Kubernetes cronj
     * Gateway name - demo
     * Hostname - api.bjd.demo 
 * Certificates were generated using Let's Encrypt
-    * acme.sh --issue -d *.bjdazure.demo --yes-I-know-dns-manual-mode-enough-go-ahead-please --dns 
+    * acme.sh --issue -d *.bjd.demo --yes-I-know-dns-manual-mode-enough-go-ahead-please --dns 
 * Traefik is the Kuberenetes Ingress Controller
     * helm upgrade traefik stable/traefik --set ssl.insecureSkipVerify=true --set ssl.enabled=true --set rbac.enabled=true
 * Azure Pod Identitiy was deployed to the cluster 
@@ -39,4 +39,4 @@ How follows in this repo is a demostration on how you can use a Kubernetes cronj
     * kubectl -f ./rotation-cronjob.yaml
 
 ## TBD
-- [ ] A better way to switch between 'primary' and 'secondary' keys for token generation.  
+- [X] A better way to switch between 'primary' and 'secondary' keys for token generation.  
