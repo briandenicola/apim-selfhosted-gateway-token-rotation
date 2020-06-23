@@ -39,7 +39,7 @@ metadata:
   name:  rotate-cronjob  
   namespace: default 
 spec:
-  schedule: "0 0 * * 0"
+  schedule: "0 2 1,15 * *"
   jobTemplate:
     spec:
       template:
