@@ -4,7 +4,12 @@ export subscription=${AZURE_SUBSCRIPTION}
 export RG=${AZURE_RESOURCE_GROUP}
 export apimName=${AZURE_API_MANAGEMENT}
 export gateway=${AZURE_APIM_GATEWAY}
-export keyType="secondary" #Need some logic to switch between rotating primary and secondary keys
+
+if [ $(date +%m) -le 15 ]; then 
+    export keyType="secondary" 
+else
+    export keyType="primary" 
+fi
 
 echo "Log into Azure via Managed Identity"
 az login --identity 
