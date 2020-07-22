@@ -6,9 +6,11 @@ export apimName=${AZURE_API_MANAGEMENT}
 export gateway=${AZURE_APIM_GATEWAY}
 
 if [ $(date +%m) -le 15 ]; then 
-    export keyType="secondary" 
+    keyType="secondary" 
+    rotatedKey="primary"
 else
-    export keyType="primary" 
+    keyType="primary" 
+    rotatedKey="secondary"
 fi
 
 echo "Log into Azure via Managed Identity"
@@ -30,11 +32,5 @@ kubectl create secret generic ${gateway}-token --from-literal=value="GatewayKey 
 echo "Rollout Deployment in Kubernetes"
 kubectl rollout restart deployment ${gateway}
 
-if [ $keyType == "primary" ]; then 
-    rotatedKey="secondary"
-else
-    rotatedKey="primary"
-fi
-
-#echo "Rotate ${rotatedKey} Key"
+echo "Rotate ${rotatedKey} Key"
 az rest --method POST --uri "${uri}/regenerateKey?api-version=2019-12-01" --body "{ \"keyType\": \"${rotatedKey}\" }" 
