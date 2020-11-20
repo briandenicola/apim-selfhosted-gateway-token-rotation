@@ -12,7 +12,8 @@ How follows in this repo is a demostration on how you can use a Kubernetes cronj
 * Certificates were generated using Let's Encrypt
     * acme.sh --issue -d *.bjd.demo --yes-I-know-dns-manual-mode-enough-go-ahead-please --dns 
 * Traefik is the Kuberenetes Ingress Controller
-    * helm upgrade traefik stable/traefik --set ssl.insecureSkipVerify=true --set ssl.enabled=true --set rbac.enabled=true
+    * helm repo add traefik17 https://repo.chartcenter.io
+    * helm upgrade -i traefik traefik17/stable/traefik --set ssl.insecureSkipVerify=true --set ssl.enabled=true --set rbac.enabled=true
 * Azure Pod Identitiy was deployed to the cluster 
     * helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
     * helm install aad-pod-identity aad-pod-identity/aad-pod-identity
